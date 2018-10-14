@@ -94,31 +94,24 @@
       }
 	  
       /**
-       * This middleware display an alert "That's a great goal! Whenever a new
-       * goal is added"
+       * This middleware display:
+       * - A alert "That's a great goal! Whenever a new goal is added".
+       * Don't foget to [name of your todo item] whenever a new todo item is added.
        */
-     const goalAdded = (store) => (next) => (action) => {
-       if (action.type === ADD_GOAL) {
-		 alert("That's a great goal!");
-       }
-       return next(action); 
-     }
-      
-      /**
-       * This middleware display Don't foget to [name of your todo item]
-       * whenever a new todo item is added.
-       */
-      const todoAdded = (store) => (next) => (action) => {
-		if (action.type === ADD_TODO) {
+      const itemAdded = (store) => (next) => (action) => {
+        if (action.type === ADD_GOAL) {
+		      alert("That's a great goal!");
+        }
+        if (action.type === ADD_TODO) {
           alert(`Don't foget to ${action.todo.name}!`);
         }
-        return next(action);  
+        return next(action); 
       }
      
       const store = Redux.createStore(Redux.combineReducers({
         todos,
         goals,
-      }), Redux.applyMiddleware(goalAdded, todoAdded))
+      }), Redux.applyMiddleware(itemAdded))
 
       store.subscribe(() => {
         const {
